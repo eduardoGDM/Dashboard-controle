@@ -1,37 +1,37 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\RelatorioController;
+use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::view('/', 'welcome')->name('home');
 Route::view('/unauthorized', 'unauthorized')->name('unauthorized');
 
-// Agrupamento das rotas de autenticação
+// Rotas de autenticação
 Route::controller(AuthController::class)->group(function () {
     Route::prefix('auth')->name('auth.')->group(function () {
-
         Route::get('/login', 'showLoginForm')->name('login');
         Route::post('/login', 'login');
-
         Route::get('/register', 'showRegisterForm')->name('register');
         Route::post('/register', 'register');
-
         Route::post('/logout', 'logout')->name('logout');
     });
 });
 
-// Dashboard protegido
-Route::get('/dashboard', function () {
-    return view('dashboard.home');
-})->middleware('auth')->name('dashboard.home');
+// Rotas protegidas da dashboard
+Route::prefix('dashboard')->middleware('auth')->name('dashboard.')->group(function () {
+    Route::view('/', 'dashboard.home')->name('home');
+
+    Route::view('/usuarios', 'dashboard.usuarios.index')->name('usuarios');
+    Route::view('/configuracoes', 'dashboard.configuracoes.index')->name('configuracoes');
+    Route::get('/relatorios', [RelatorioController::class, 'grafico'])->name('relatorios.index');
+
+    // Adiciona as rotas automáticas de resource
+    Route::resource('produtos', ProdutoController::class);
+    Route::resource('categorias', CategoriaController::class);
+    Route::resource('vendas', VendaController::class);
+
+});

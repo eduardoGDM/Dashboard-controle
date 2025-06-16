@@ -5,10 +5,8 @@
 @section('content')
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card shadow-sm p-4" style="width: 100%; max-width: 420px;">
-        <h2 class="text-center fw-bold mb-1">Sign in to your account</h2>
-        <p class="text-center mb-4">
-            <a href="{{ route('auth.register') }}" class="text-decoration-none text-primary">Or create an account</a>
-        </p>
+        <h2 class="text-center fw-bold mb-1">Gestão de Estoque</h2>
+
 
         @if ($errors->any())
             <div class="alert alert-danger">
