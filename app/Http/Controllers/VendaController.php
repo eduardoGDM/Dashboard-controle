@@ -83,10 +83,12 @@ class VendaController extends Controller
             return back()->with('error', 'Quantidade insuficiente em estoque para este produto.')->withInput();
         }
 
+        $valorTotal = $produto->valor * $request->quantidade;
+
         Venda::create([
             'nome'       => $request->nome,
             'produto_id' => $produto->id,
-            'valor'      => $produto->valor,
+            'valor'      => $valorTotal,
             'quantidade' => $request->quantidade,
             'data'       => $request->data,
             'status'     => $request->status,
