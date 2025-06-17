@@ -3,42 +3,55 @@
 @section('title', 'Registrar')
 
 @section('content')
-    <div class="flex flex-col items-center justify-center min-h-screen py-10 px-4">
-        <h1 class="text-3xl font-bold mb-6 text-primary">Registrar Conta</h1>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow-sm p-4" style="width: 100%; max-width: 500px;">
+        <h2 class="text-center fw-bold mb-3 text-primary">Criar Conta</h2>
 
+        {{-- Mensagem de erro --}}
         @if ($errors->any())
-            <div class="bg-red-100 text-red-700 p-4 mb-4 rounded">
-                <ul class="list-disc list-inside">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erro!</strong> Verifique os campos abaixo:
+                <ul class="mb-0 mt-2">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
             </div>
         @endif
 
-        <form method="POST" action="{{ route('auth.register') }}" class="w-full max-w-sm bg-white p-6 rounded shadow">
+        {{-- Formulário --}}
+        <form method="POST" action="{{ route('auth.register') }}">
             @csrf
 
-            <label class="block mb-2 text-sm font-medium text-gray-700">Nome</label>
-            <input type="text" name="name" value="{{ old('name') }}" required
-                   class="w-full mb-4 px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome completo</label>
+                <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
+            </div>
 
-            <label class="block mb-2 text-sm font-medium text-gray-700">Email</label>
-            <input type="email" name="email" value="{{ old('email') }}" required
-                   class="w-full mb-4 px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300">
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+            </div>
 
-            <label class="block mb-2 text-sm font-medium text-gray-700">Senha</label>
-            <input type="password" name="password" required
-                   class="w-full mb-4 px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300">
+            <div class="mb-3">
+                <label for="password" class="form-label">Senha</label>
+                <input type="password" name="password" id="password" class="form-control" required>
+            </div>
 
-            <label class="block mb-2 text-sm font-medium text-gray-700">Confirmar Senha</label>
-            <input type="password" name="password_confirmation" required
-                   class="w-full mb-6 px-4 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300">
+            <div class="mb-4">
+                <label for="password_confirmation" class="form-label">Confirmar Senha</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" required>
+            </div>
 
-            <button type="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition">
-                Registrar
-            </button>
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+
+            <div class="text-center">
+                <small>Já possui conta? <a href="{{ route('auth.login') }}" class="text-decoration-none">Entrar</a></small>
+            </div>
         </form>
     </div>
+</div>
 @endsection

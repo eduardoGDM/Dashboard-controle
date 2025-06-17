@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\RelatorioController;
+use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,14 +25,16 @@ Route::controller(AuthController::class)->group(function () {
 // Rotas protegidas da dashboard
 Route::prefix('dashboard')->middleware('auth')->name('dashboard.')->group(function () {
     Route::view('/', 'dashboard.home')->name('home');
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+    Route::patch('/usuarios/{user}/ativar', [UsuarioController::class, 'ativar'])->name('usuarios.ativar');
 
-    Route::view('/usuarios', 'dashboard.usuarios.index')->name('usuarios');
     Route::view('/configuracoes', 'dashboard.configuracoes.index')->name('configuracoes');
     Route::get('/relatorios', [RelatorioController::class, 'grafico'])->name('relatorios.index');
+    Route::post('/vendas/{id}/aprovar', [VendaController::class, 'aprovar'])->name('vendas.aprovar');
 
     // Adiciona as rotas automáticas de resource
     Route::resource('produtos', ProdutoController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::resource('vendas', VendaController::class);
-
+    Route::resource('usuarios', UsuarioController::class);
 });

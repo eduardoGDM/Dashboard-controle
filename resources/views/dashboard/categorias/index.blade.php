@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mb-4">🗂️ Listagem de Categorias</h2>
+        <h2 class="mb-4"><i class="bi bi-folder2-open me-2"></i>Listagem de Categorias</h2>
 
         <table class="table table-striped">
             <thead class="table-dark">
@@ -18,13 +18,19 @@
                     <tr>
                         <td>{{ $categoria->nome }}</td>
                         <td class="d-flex gap-2">
-                            <a href="{{ route('dashboard.categorias.edit', $categoria) }}" class="btn btn-sm btn-warning">✏️ Editar</a>
-                            <a href="{{ route('dashboard.categorias.show', $categoria) }}" class="btn btn-sm btn-info text-white">🔍 Ver</a>
+                            <a href="{{ route('dashboard.categorias.edit', $categoria) }}" class="btn btn-sm btn-warning" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="{{ route('dashboard.categorias.show', $categoria) }}" class="btn btn-sm btn-info text-white" title="Ver">
+                                <i class="bi bi-eye"></i>
+                            </a>
                             <form method="POST" action="{{ route('dashboard.categorias.destroy', $categoria) }}"
                                   onsubmit="return confirm('Tem certeza que deseja excluir esta categoria?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">🗑️ Excluir</button>
+                                <button type="submit" class="btn btn-sm btn-danger" title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </form>
                         </td>
                     </tr>

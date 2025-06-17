@@ -19,12 +19,15 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->has('remember-me'))) {
             $request->session()->regenerate();
 
+            if (! Auth::user()->ativo) {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Sua conta ainda não foi ativada por um administrador.',
+                ]);
+            }
+
             return redirect()->route('dashboard.home')->with('success', 'Login realizado com sucesso!');
         }
-
-        return back()->withErrors([
-            'email' => 'As credenciais fornecidas estão incorretas.',
-        ])->withInput();
     }
 
     // Logout
@@ -38,27 +41,22 @@ class AuthController extends Controller
         return redirect()->route('auth.login')->with('success', 'Você saiu da sua conta.');
     }
 
-    // Registro
     public function register(Request $request)
     {
-        info($request);
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        $user = User::create([
+        User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'ativo'    => false,
         ]);
 
-        Auth::login($user);
-
-        $request->session()->regenerate();
-
-        return redirect()->route('dashboard.home')->with('success', 'Conta criada com sucesso!');
+        return redirect()->route('auth.login')->with('success', 'Cadastro realizado! Aguarde aprovação de um administrador para acessar a plataforma.');
     }
 
     public function showLoginForm()

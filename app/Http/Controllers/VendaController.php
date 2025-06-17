@@ -7,9 +7,24 @@ use Illuminate\Http\Request;
 
 class VendaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $vendas = Venda::with('produto')->get();
+        $query = Venda::with('produto');
+
+        if ($request->filled('nome')) {
+            $query->where('nome', 'like', '%' . $request->nome . '%');
+        }
+
+        if ($request->filled('data')) {
+            $query->whereDate('data', $request->data);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $vendas = $query->orderBy('data', 'desc')->get();
+
         return view('dashboard.vendas.index', compact('vendas'));
     }
 
@@ -30,9 +45,18 @@ class VendaController extends Controller
         return view('dashboard.vendas.edit', compact('venda', 'produtos'));
     }
 
+    public function aprovar($id)
+    {
+        $venda         = Venda::findOrFail($id);
+        $venda->status = 'concluída';
+        $venda->save();
+
+        return redirect()->back()->with('success', 'Venda aprovada com sucesso.');
+    }
+
     public function grafico()
     {
-        $dados = \App\Models\Venda::selectRaw('produto_id, SUM(quantidade) as total')
+        $dados = Venda::selectRaw('produto_id, SUM(quantidade) as total')
             ->groupBy('produto_id')
             ->with('produto')
             ->get();

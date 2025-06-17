@@ -3,7 +3,7 @@
 @section('title', 'Listagem de Vendas')
 
 @section('content')
-    <h2 class="mb-4">📈 Listagem de Vendas</h2>
+    <h2 class="mb-4"><i class="bi bi-clipboard-data me-2"></i>Listagem de Vendas</h2>
 
     <form method="GET" action="{{ route('dashboard.vendas.index') }}" class="row g-3 mb-4">
         <div class="col-md-4">
@@ -24,7 +24,9 @@
         </div>
 
         <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">🔍 Filtrar</button>
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-search me-1"></i> Filtrar
+            </button>
         </div>
     </form>
 
@@ -34,7 +36,7 @@
                 <th>Nome</th>
                 <th>Produto</th>
                 <th>Valor (R$)</th>
-                <th>Quantidade</th> <!-- NOVO -->
+                <th>Quantidade</th>
                 <th>Status</th>
                 <th>Data</th>
                 <th>Ações</th>
@@ -49,16 +51,32 @@
                     <td>{{ $venda->quantidade }}</td>
                     <td>{{ ucfirst($venda->status) }}</td>
                     <td>{{ \Carbon\Carbon::parse($venda->data)->format('d/m/Y') }}</td>
+                  <td>
+					<a href="{{ route('dashboard.vendas.show', $venda->id) }}" class="btn btn-info btn-sm" title="Visualizar">
+						<i class="bi bi-eye"></i>
+					</a>
+					<a href="{{ route('dashboard.vendas.edit', $venda->id) }}" class="btn btn-warning btn-sm" title="Editar">
+						<i class="bi bi-pencil"></i>
+					</a>
 
-                    <td>
-                        <a href="{{ route('dashboard.vendas.show', $venda->id) }}" class="btn btn-info btn-sm">👁️</a>
-                        <a href="{{ route('dashboard.vendas.edit', $venda->id) }}" class="btn btn-warning btn-sm">✏️</a>
-                        <form action="{{ route('dashboard.vendas.destroy', $venda->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir esta venda?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
-                        </form>
-                    </td>
+					<form action="{{ route('dashboard.vendas.destroy', $venda->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir esta venda?')">
+						@csrf
+							@method('DELETE')
+						<button type="submit" class="btn btn-danger btn-sm" title="Excluir">
+							<i class="bi bi-trash"></i>
+						</button>
+					</form>
+
+    @if($venda->status === 'pendente')
+        <form action="{{ route('dashboard.vendas.aprovar', $venda->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Deseja realmente aprovar esta venda?')">
+            @csrf
+            <button type="submit" class="btn btn-success btn-sm" title="Aprovar Venda">
+                <i class="bi bi-check-circle"></i>
+            </button>
+        </form>
+    @endif
+</td>
+
                 </tr>
             @empty
                 <tr>
