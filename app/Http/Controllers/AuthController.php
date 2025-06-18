@@ -28,6 +28,10 @@ class AuthController extends Controller
 
             return redirect()->route('dashboard.home')->with('success', 'Login realizado com sucesso!');
         }
+
+        return back()->withErrors([
+            'email' => 'Credenciais inválidas ou usuário não cadastrado.',
+        ])->withInput($request->only('email'));
     }
 
     // Logout

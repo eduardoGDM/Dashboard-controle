@@ -30,7 +30,7 @@
 
 				<li class="nav-item">
 					<a href="{{ route('dashboard.home') }}" class="nav-link text-white">
-						<i class="bi bi-house-door-fill me-2"></i> Início
+						<i class="bi bi-house-[door-fill me-2"></i> Início
 					</a>
 				</li>
 
@@ -107,6 +107,13 @@
 							</li>
 						</ul>
 					</div>
+				</li>
+
+				<!-- Seção exclusiva para Vendas Mobile -->
+				<li class="nav-item">
+					<a href="{{ route('dashboard.vendas.create-mobile') }}" class="nav-link text-white">
+  						  <i class="bi bi-phone me-2"></i> Vendas Mobile
+					</a>
 				</li>
 
 				<li class="nav-item mt-4">

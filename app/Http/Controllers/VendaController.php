@@ -45,6 +45,12 @@ class VendaController extends Controller
         return view('dashboard.vendas.edit', compact('venda', 'produtos'));
     }
 
+    public function createMobile()
+    {
+        $produtos = Produto::all();
+        return view('dashboard.vendas.create-mobile', compact('produtos'));
+    }
+
     public function aprovar($id)
     {
         $venda         = Venda::findOrFail($id);

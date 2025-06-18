@@ -32,6 +32,8 @@ Route::prefix('dashboard')->middleware('auth')->name('dashboard.')->group(functi
     Route::get('/relatorios', [RelatorioController::class, 'grafico'])->name('relatorios.index');
     Route::post('/vendas/{id}/aprovar', [VendaController::class, 'aprovar'])->name('vendas.aprovar');
 
+    Route::get('/vendas-mobile/create', [VendaController::class, 'createMobile'])->name('vendas.create-mobile');
+
     // Adiciona as rotas automáticas de resource
     Route::resource('produtos', ProdutoController::class);
     Route::resource('categorias', CategoriaController::class);
