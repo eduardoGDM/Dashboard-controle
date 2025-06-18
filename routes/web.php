@@ -8,7 +8,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+Route::redirect('/', '/auth/login')->name('home');
 Route::view('/unauthorized', 'unauthorized')->name('unauthorized');
 
 // Rotas de autenticação
