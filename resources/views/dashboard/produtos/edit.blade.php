@@ -30,15 +30,6 @@
                 <textarea id="observacao" name="observacao" class="form-control" rows="3">{{ $produto->observacao }}</textarea>
             </div>
 
-            <div class="mb-3">
-                <label for="tipo" class="form-label">Tipo</label>
-                <select id="tipo" name="tipo" class="form-select" required>
-                    <option value="fisico" {{ $produto->tipo == 'fisico' ? 'selected' : '' }}>Físico</option>
-                    <option value="digital" {{ $produto->tipo == 'digital' ? 'selected' : '' }}>Digital</option>
-                    <option value="servico" {{ $produto->tipo == 'servico' ? 'selected' : '' }}>Serviço</option>
-                </select>
-            </div>
-
             @if ($categorias->count())
                 <div class="mb-3">
                     <label for="categoria_id" class="form-label">Categoria</label>

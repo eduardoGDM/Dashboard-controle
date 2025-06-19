@@ -46,7 +46,10 @@ class RelatorioController extends Controller
         $valorProdutosVenda = Produto::where('listar_vendas', true)
             ->whereMonth('created_at', $mesSelecionado)
             ->whereYear('created_at', $anoSelecionado)
-            ->sum('valor');
+            ->get()
+            ->sum(function ($produto) {
+                return $produto->valor * $produto->quantidade;
+            });
 
         $valorPivo = $valorProdutosMateriaPrima + $valorPendente;
 
