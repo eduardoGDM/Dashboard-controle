@@ -37,10 +37,16 @@ class RelatorioController extends Controller
             ->sum('valor');
 
         // Valor de produtos (listar_vendas = false)
-        $valorProdutosMateriaPrima = Produto::where('listar_vendas', false)
+        // Produtos de matéria-prima (listar_vendas = false)
+        $produtosMateriaPrima = Produto::where('listar_vendas', false)
             ->whereMonth('created_at', $mesSelecionado)
             ->whereYear('created_at', $anoSelecionado)
-            ->sum('valor');
+            ->get();
+
+// Soma total de valor * quantidade
+        $valorProdutosMateriaPrima = $produtosMateriaPrima->sum(function ($produto) {
+            return $produto->valor * $produto->quantidade;
+        });
 
         // Valor de produtos de venda (listar_vendas = true)
         $valorProdutosVenda = Produto::where('listar_vendas', true)
@@ -51,9 +57,7 @@ class RelatorioController extends Controller
                 return $produto->valor * $produto->quantidade;
             });
 
-        $valorPivo = $valorProdutosMateriaPrima + $valorPendente;
-
-        $lucro = $valorVendas - $valorPivo;
+        $lucro = $valorVendas - $valorProdutosMateriaPrima;
 
         // Vendas pendentes (para a tabela da view)
         $vendasPendentes = Venda::with('produto')
