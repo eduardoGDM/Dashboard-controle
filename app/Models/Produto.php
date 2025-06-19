@@ -14,6 +14,7 @@ class Produto extends Model
         'quantidade',
         'observacao',
         'tipo',
+        'listar_vendas',
         'categoria_id',
     ];
 

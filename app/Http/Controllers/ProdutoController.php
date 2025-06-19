@@ -42,24 +42,25 @@ class ProdutoController extends Controller
         try {
             info('Recebido:', $request->all());
 
-            // Converte valor de "1.234,56" para "1234.56"
             $valorConvertido = str_replace(['.', ','], ['', '.'], $request->valor);
             $request->merge(['valor' => $valorConvertido]);
 
             $request->validate([
-                'nome'         => 'required',
-                'valor'        => 'required|numeric',
-                'quantidade'   => 'required|integer',
-                'observacao'   => 'nullable|string',
-                'categoria_id' => 'nullable|numeric',
+                'nome'          => 'required',
+                'valor'         => 'required|numeric',
+                'quantidade'    => 'required|integer',
+                'observacao'    => 'nullable|string',
+                'listar_vendas' => 'required|required',
+                'categoria_id'  => 'nullable|numeric',
             ]);
 
             Produto::create([
-                'nome'         => $request->nome,
-                'valor'        => $request->valor,
-                'quantidade'   => $request->quantidade,
-                'observacao'   => $request->observacao,
-                'categoria_id' => $request->categoria_id,
+                'nome'          => $request->nome,
+                'valor'         => $request->valor,
+                'quantidade'    => $request->quantidade,
+                'observacao'    => $request->observacao,
+                'listar_vendas' => $request->listar_vendas,
+                'categoria_id'  => $request->categoria_id,
             ]);
 
             return redirect()->route('dashboard.produtos.index')->with('success', 'Produto cadastrado com sucesso!');
@@ -72,19 +73,21 @@ class ProdutoController extends Controller
     public function update(Request $request, Produto $produto)
     {
         $request->validate([
-            'nome'         => 'required|string|max:255',
-            'valor'        => 'required|numeric',
-            'quantidade'   => 'required|integer',
-            'observacao'   => 'nullable|string',
-            'categoria_id' => 'nullable|exists:categorias,id',
+            'nome'          => 'required|string|max:255',
+            'valor'         => 'required|numeric',
+            'quantidade'    => 'required|integer',
+            'observacao'    => 'nullable|string',
+            'listar_vendas' => 'required|required',
+            'categoria_id'  => 'nullable|exists:categorias,id',
         ]);
 
         $produto->update([
-            'nome'         => $request->nome,
-            'valor'        => $request->valor,
-            'quantidade'   => $request->quantidade,
-            'observacao'   => $request->observacao,
-            'categoria_id' => $request->categoria_id,
+            'nome'          => $request->nome,
+            'valor'         => $request->valor,
+            'quantidade'    => $request->quantidade,
+            'observacao'    => $request->observacao,
+            'listar_vendas' => $request->listar_vendas,
+            'categoria_id'  => $request->categoria_id,
         ]);
 
         return redirect()->route('dashboard.produtos.index')->with('success', 'Produto atualizado com sucesso!');

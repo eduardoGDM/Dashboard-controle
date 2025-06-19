@@ -49,6 +49,14 @@ function formatarMoeda(campo) {
             <textarea id="observacao" name="observacao" class="form-control" rows="3"></textarea>
         </div>
 
+		<div class="form-check mb-3">
+			<input type="hidden" name="listar_vendas" value="0">
+			<input class="form-check-input" type="checkbox" id="listar_vendas" name="listar_vendas" value="1">
+			<label class="form-check-label" for="listar_vendas">
+				Listar produto para vendas
+			</label>
+		</div>
+
         <button type="submit" class="btn btn-success">Salvar Produto</button>
     </form>
 @endsection

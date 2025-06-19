@@ -51,6 +51,14 @@
                 </div>
             @endif
 
+			<div class="form-check mb-3">
+				<input type="hidden" name="listar_vendas" value="0">
+				<input class="form-check-input" type="checkbox" id="listar_vendas" name="listar_vendas" value="1" {{ $produto->listar_vendas ? 'checked' : '' }}>
+				<label class="form-check-label" for="listar_vendas">
+					Listar produto para vendas
+				</label>
+			</div>
+
             <button type="submit" class="btn btn-primary">Salvar Alterações</button>
             <a href="{{ route('dashboard.produtos.index') }}" class="btn btn-secondary">Cancelar</a>
         </form>

@@ -23,25 +23,36 @@ class RelatorioController extends Controller
         $labels  = $dados->pluck('produto.nome');
         $valores = $dados->pluck('total');
 
-        // Valor total vendido no mês e ano
+        // Valor total vendido no mês (produtos com listar_vendas = true)
         $valorVendas = Venda::whereMonth('data', $mesSelecionado)
             ->whereYear('data', $anoSelecionado)
+            ->whereHas('produto', fn($query) => $query->where(['listar_vendas' => true, 'status' => 'concluída']))
             ->sum('valor');
 
-        // Valor pendente no mês e ano
+        // Valor pendente no mês (listar_vendas = true)
         $valorPendente = Venda::whereMonth('data', $mesSelecionado)
             ->whereYear('data', $anoSelecionado)
             ->where('status', 'pendente')
+            ->whereHas('produto', fn($query) => $query->where('listar_vendas', true))
             ->sum('valor');
 
-        // Produtos cadastrados no mês e ano
-        $valorProdutos = Produto::whereMonth('created_at', $mesSelecionado)
+        // Valor de produtos (listar_vendas = false)
+        $valorProdutosMateriaPrima = Produto::where('listar_vendas', false)
+            ->whereMonth('created_at', $mesSelecionado)
             ->whereYear('created_at', $anoSelecionado)
             ->sum('valor');
 
-        // Lucro estimado
-        $lucro = $valorVendas - $valorProdutos;
+        // Valor de produtos de venda (listar_vendas = true)
+        $valorProdutosVenda = Produto::where('listar_vendas', true)
+            ->whereMonth('created_at', $mesSelecionado)
+            ->whereYear('created_at', $anoSelecionado)
+            ->sum('valor');
 
+        $valorPivo = $valorProdutosMateriaPrima + $valorPendente;
+
+        $lucro = $valorVendas - $valorPivo;
+
+        // Vendas pendentes (para a tabela da view)
         $vendasPendentes = Venda::with('produto')
             ->whereMonth('data', $mesSelecionado)
             ->whereYear('data', $anoSelecionado)
@@ -52,12 +63,14 @@ class RelatorioController extends Controller
             'labels',
             'valores',
             'valorVendas',
-            'valorProdutos',
             'valorPendente',
+            'valorProdutosMateriaPrima',
+            'valorProdutosVenda',
             'lucro',
             'mesSelecionado',
             'anoSelecionado',
             'vendasPendentes'
         ));
     }
+
 }

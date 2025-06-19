@@ -30,7 +30,7 @@ class VendaController extends Controller
 
     public function create()
     {
-        $produtos = Produto::all();
+        $produtos = Produto::where('listar_vendas', true)->get();
         return view('dashboard.vendas.create', compact('produtos'));
     }
 

@@ -41,14 +41,23 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card border-primary shadow-sm h-100">
-                <div class="card-body text-primary">
-                    <h6 class="card-title mb-2"><i class="bi bi-box-seam me-2"></i>Valor de Produtos</h6>
-                    <p class="fs-5 fw-bold">R$ {{ number_format($valorProdutos, 2, ',', '.') }}</p>
-                </div>
-            </div>
-        </div>
+     <div class="col-md-3">
+			<div class="card border-info shadow-sm h-100">
+				<div class="card-body text-info">
+					<h6 class="card-title mb-2"><i class="bi bi-tools me-2"></i>Produtos (Matéria-prima)</h6>
+					<p class="fs-5 fw-bold">R$ {{ number_format($valorProdutosMateriaPrima, 2, ',', '.') }}</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3">
+			<div class="card border-secondary shadow-sm h-100">
+				<div class="card-body text-secondary">
+					<h6 class="card-title mb-2"><i class="bi bi-tag me-2"></i>Produtos de Venda</h6>
+					<p class="fs-5 fw-bold">R$ {{ number_format($valorProdutosVenda, 2, ',', '.') }}</p>
+				</div>
+			</div>
+		</div>
 
         <div class="col-md-3">
             <div class="card border-danger shadow-sm h-100">
