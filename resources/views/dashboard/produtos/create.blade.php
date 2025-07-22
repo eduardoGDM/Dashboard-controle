@@ -12,7 +12,7 @@ function formatarMoeda(campo) {
 }
 </script>
 
-    <h2 class="mb-4">Cadastrar Produto</h2>
+    <h2 class="mb-4">Cadastrar Produtos</h2>
 
     <form method="POST" action="{{ route('dashboard.produtos.store') }}">
         @csrf
