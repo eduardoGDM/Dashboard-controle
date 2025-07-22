@@ -10,9 +10,12 @@
             <thead class="table-dark">
                 <tr>
                     <th>Nome</th>
-                    <th>Valor (R$)</th>
+                    <th>Valor Unid.(R$)</th>
                     <th>Quantidade</th>
+					<th>Valor Total(R$)</th>
                     <th>Categoria</th>
+					<th>Criado em</th>
+					<th>Atualizado em</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -22,7 +25,10 @@
                         <td>{{ $produto->nome }}</td>
                         <td>R$ {{ number_format($produto->valor, 2, ',', '.') }}</td>
                         <td>{{ $produto->quantidade }}</td>
+						<td>R$ {{ number_format($produto->valor * $produto->quantidade, 2, ',', '.') }}</td>
                         <td>{{ $produto->categoria->nome ?? '—' }}</td>
+						<td>{{ $produto->created_at ? $produto->created_at->format('d/m/Y') : '—' }}</td>
+						<td>{{ $produto->updated_at ? $produto->updated_at->format('d/m/Y') : '—' }}</td>
                         <td>
                             <a href="{{ route('dashboard.produtos.show', $produto->id) }}" class="btn btn-info btn-sm" title="Ver">
                                 <i class="bi bi-eye"></i>
